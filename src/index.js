@@ -1,5 +1,5 @@
 // @flow
-import HlsCore from 'hls.js';
+import HlsCore from './hlscore/hls';
 import { CustEvent, deepAssign, Log, isElement, isObject } from 'mango-helper';
 import defaultCustomConfig from './custom-config.js';
 import { autobind } from 'toxic-decorators';
