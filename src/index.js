@@ -35,6 +35,9 @@ export default class Hls extends CustEvent {
     /* istanbul ignore else */
     if (hlsKernel) {
       hlsKernel[remove ? 'off' : 'on'](HlsCore.Events.ERROR, this.hlsErrorHandler);
+      hlsKernel[remove ? 'off' : 'on'](HlsCore.Events.BUFFER_EMPTY, this.hlsEventHandler);
+      hlsKernel[remove ? 'off' : 'on'](HlsCore.Events.BUFFER_FULL, this.hlsEventHandler);
+      hlsKernel[remove ? 'off' : 'on'](HlsCore.Events.FRAG_PARSING_INIT_SEGMENT, this.hlsEventHandler);
     }
   }
 
@@ -74,6 +77,11 @@ export default class Hls extends CustEvent {
   refresh() {
     this.hlsKernel.stopLoad();
     return this.hlsKernel.loadSource(this.config.src);
+  }
+
+  @autobind
+  hlsEventHandler(event: string, data: Object) {
+    this.emit(event, data)
   }
 
   @autobind
