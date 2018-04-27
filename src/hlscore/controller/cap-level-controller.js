@@ -1,4 +1,5 @@
 /*
+ * 文本轨道 CEA-608/708 captions 类型支持
  * cap stream level to media size dimension controller
 */
 

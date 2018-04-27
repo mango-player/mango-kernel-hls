@@ -71,11 +71,14 @@ class StreamController extends EventHandler {
     if (this.levels) {
       let lastCurrentTime = this.lastCurrentTime, hls = this.hls;
       this.stopLoad();
+      // 如果没有开启 timer 则自动开启
       if (!this.timer) {
         this.timer = setInterval(this.ontick, 100);
       }
       this.level = -1;
       this.fragLoadError = 0;
+
+      // 如果没有开始第一个分片的请求
       if (!this.startFragRequested) {
         // determine load level
         let startLevel = hls.startLevel;
@@ -184,6 +187,7 @@ class StreamController extends EventHandler {
           media = this.media;
 
 
+    // 如果没有进行媒体绑定或者配置中没有设置 startFragPrefetch 的话
     // if start level not parsed yet OR
     // if video not attached AND start fragment already requested OR start frag prefetch disable
     // exit loop, as we either need more info (level not parsed) or we need media to be attached to load new fragment
@@ -228,6 +232,7 @@ class StreamController extends EventHandler {
       return;
     }
 
+    //如果 buffer 的长度小于预计的则继续加载下个分片
     // if buffer length is less than maxBufLen try to load a new fragment ...
     logger.trace(`buffer length of ${bufferLen.toFixed(3)} is below max of ${maxBufLen.toFixed(3)}. checking for more payload ...`);
 

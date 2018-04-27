@@ -100,6 +100,8 @@ export default class Hls {
     const streamController = this.streamController = new StreamController(this);
     let networkControllers = [levelController, streamController];
 
+    // 可选功能: 支持多音频轨道文件 Alternate Audio Track Rendition 
+    // 参考： issue #https://github.com/video-dev/hls.js/issues/585
     // optional audio stream controller
     let Controller = config.audioStreamController;
     if (Controller) {
@@ -109,6 +111,8 @@ export default class Hls {
 
     let coreComponents = [ playListLoader, fragmentLoader, keyLoader, abrController, bufferController, capLevelController, fpsController, id3TrackController ];
 
+    // 可选功能: 支持多音频轨道文件 Alternate Audio Track Rendition 
+    // 参考： issue #https://github.com/video-dev/hls.js/issues/585
     // optional audio track and subtitle controller
     Controller = config.audioTrackController;
     if (Controller) {
@@ -124,6 +128,7 @@ export default class Hls {
       coreComponents.push(subtitleTrackController);
     }
 
+    // 可选的WebVTT subtitles 字幕文件， VIDEO标签支持独立的字幕轨道
     // optional subtitle controller
     [config.subtitleStreamController, config.timelineController].forEach(Controller => {
       if (Controller) {
@@ -131,6 +136,9 @@ export default class Hls {
       }
     });
     this.coreComponents = coreComponents;
+
+    console.warn(this.networkControllers)
+    console.warn(this.coreComponents)
   }
 
   destroy() {

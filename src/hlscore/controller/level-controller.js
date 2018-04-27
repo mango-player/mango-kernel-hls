@@ -71,6 +71,8 @@ export default class LevelController extends EventHandler {
     let audioTracks = [];
 
     // regroup redundant levels together
+    // 将冗余的清晰度levels 重新进行分组
+    // 芒果的点播视频文件都只返回一个清晰度level
     data.levels.forEach(level => {
       level.loadError = 0;
       level.fragmentError = false;
@@ -97,11 +99,13 @@ export default class LevelController extends EventHandler {
     });
 
     // remove audio-only level if we also have levels with audio+video codecs signalled
+    // 如果有音视频混合编解码，删除纯音频编码的轨道
     if (videoCodecFound === true && audioCodecFound === true) {
       levels = levels.filter(({videoCodec}) => !!videoCodec);
     }
 
     // only keep levels with supported audio/video codecs
+    // 只保留支持的编解码格式的清晰度 level
     levels = levels.filter(({audioCodec, videoCodec}) => {
       return (!audioCodec || isCodecSupportedInMp4(audioCodec)) && (!videoCodec || isCodecSupportedInMp4(videoCodec));
     });
@@ -110,6 +114,7 @@ export default class LevelController extends EventHandler {
       audioTracks = data.audioTracks.filter(track => !track.audioCodec || isCodecSupportedInMp4(track.audioCodec, 'audio'));
     }
 
+    // 设置默认的清晰度/bitrate的level
     if (levels.length > 0) {
       // start bitrate is the first bitrate of the manifest
       bitrateStart = levels[0].bitrate;
@@ -126,6 +131,7 @@ export default class LevelController extends EventHandler {
           break;
         }
       }
+
       this.hls.trigger(Event.MANIFEST_PARSED, {
         levels,
         audioTracks,

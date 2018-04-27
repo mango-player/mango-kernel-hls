@@ -26,6 +26,7 @@ class FPSController extends EventHandler{
       if (typeof video.getVideoPlaybackQuality === 'function') {
         this.isVideoPlaybackQualityAvailable = true;
       }
+      // 开启掉帧检测循环，帧率过低发送 FPS_DROP_LEVEL_CAPPING 事件
       clearInterval(this.timer);
       this.timer = setInterval(this.checkFPSInterval.bind(this), config.fpsDroppedMonitoringPeriod);
     }

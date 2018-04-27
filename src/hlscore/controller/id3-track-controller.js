@@ -1,4 +1,5 @@
 /*
+ * Timed Metadata for HTTP Live Streaming (in ID3 format, carried in MPEG-2 TS)
  * id3 metadata track controller
 */
 
