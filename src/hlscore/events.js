@@ -17,6 +17,10 @@ export default {
   BUFFER_APPENDING: 'hlsBufferAppending',
   // fired when we are done with appending a media segment to the buffer - data : { parent : segment parent that triggered BUFFER_APPENDING, pending : nb of segments waiting for appending for this segment parent}
   BUFFER_APPENDED: 'hlsBufferAppended',
+  // fired when the stream buffer is reach the max buffer size
+  BUFFER_FULL: 'hlsBufferFull',
+  // fired when the stream buffer is near to zero
+  BUFFER_EMPTY: 'hlsBufferEmpty',
   // fired when the stream is finished and we want to notify the media buffer that there will be no more data - data: { }
   BUFFER_EOS: 'hlsBufferEos',
   // fired when the media buffer should be flushed - data { startOffset, endOffset }

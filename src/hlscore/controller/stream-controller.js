@@ -229,7 +229,17 @@ class StreamController extends EventHandler {
           bufferLen = bufferInfo.len;
     // Stay idle if we are still with buffer margins
     if (bufferLen >= maxBufLen) {
+      // 如果超过了预设的缓存，直接发出 BUFFER_FULL 事件
+      if(this.isBufferFull) return;
+      this.isBufferFull = true;
+      this.hls.trigger(Event.BUFFER_FULL, data);
       return;
+    }
+    this.isBufferFull = false;
+
+    // 如果目前缓存大小为0，直接发出 BUFFER_EMPTY 事件
+    if(bufferLen == 0) {
+      this.hls.trigger(Event.BUFFER_EMPTY, data);
     }
 
     //如果 buffer 的长度小于预计的则继续加载下个分片
